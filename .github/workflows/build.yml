@@ -9,6 +9,9 @@ jobs:
       matrix:
         os: [ linux ]
         arch: [ "arm", "arm64", "386", "amd64" ]
+        version: [
+          "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30",
+          "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50" ]
     name: Generate files for ${{ matrix.os }} ${{ matrix.arch }}
     steps:
       - uses: actions/checkout@v2
@@ -22,7 +25,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: ${{ github.workspace }}/out/file_${{ matrix.os }}_${{ matrix.arch }}_?.txt
-          name: file_${{ matrix.os }}_${{ matrix.arch }}
+          name: file_${{ matrix.os }}_${{ matrix.arch }}_${{ matrix.version }}.txt
       - name: Poll build artifacts
         run: |
           ./.github/scripts/getArtifacts.sh ${{ github.run_id }}
