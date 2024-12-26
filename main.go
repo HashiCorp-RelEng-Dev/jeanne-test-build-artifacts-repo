@@ -14,7 +14,8 @@ func main() {
 	}
 
 	for i := 1; i <= 100; i++ {
-		fileName := fmt.Sprintf("%s/file_%s_%s,%d.txt", outputDir, os.Getenv("OS"), os.Getenv("ARCH"), i)
+		fileName := fmt.Sprintf("%s/file_%s_%s.%d.txt", outputDir, os.Getenv("OS"), os.Getenv("ARCH"), i)
+		fmt.Println(fileName)
 
 		file, err := os.Create(fileName)
 		if err != nil {
