@@ -21,7 +21,7 @@ jobs:
       - name: Upload files
         uses: actions/upload-artifact@v4
         with:
-          path: ${{ github.workspace }}/output
+          path: ${{ github.workspace }}/out
       - name: Poll build artifacts
         run: |
           ./.github/scripts/getArtifacts.sh ${{ github.run_id }}
