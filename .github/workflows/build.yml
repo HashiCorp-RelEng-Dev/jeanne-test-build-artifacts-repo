@@ -21,8 +21,7 @@ jobs:
       - name: Upload files
         uses: actions/upload-artifact@v4
         with:
-          path: ${{ github.workspace }}/out
-          name: file_${{ matrix.os }}_${{ matrix.arch }}_{1..100}.txt
+          path: ${{ github.workspace }}/out/file_${{ matrix.os }}_${{ matrix.arch }}_?.txt
       - name: Poll build artifacts
         run: |
           ./.github/scripts/getArtifacts.sh ${{ github.run_id }}
