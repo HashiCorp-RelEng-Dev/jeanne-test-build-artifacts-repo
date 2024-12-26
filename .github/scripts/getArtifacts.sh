@@ -6,7 +6,7 @@ PER_PAGE=100
 PAGE=1       # First page
 
 fetch_page() {
-    curl -i -H "Authorization: Bearer $GITHUB_TOKEN" \
+    curl -L -H "Authorization: Bearer $GITHUB_TOKEN" \
          -H "Accept: application/vnd.github+json" \
          "$API_URL?per_page=$PER_PAGE&page=$PAGE"
 }
@@ -35,4 +35,5 @@ while true; do
 done
 
 echo "Total artifacts fetched: $(echo "$RESPONSE" | jq -r .total_count)"
+
 echo "Artifacts fetched successfully."
