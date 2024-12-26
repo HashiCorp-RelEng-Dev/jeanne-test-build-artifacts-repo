@@ -34,4 +34,5 @@ while true; do
     PAGE=$((PAGE + 1))
 done
 
+echo "Total artifacts fetched: $(echo "$RESPONSE" | jq -r .total_count)"
 echo "Artifacts fetched successfully."
