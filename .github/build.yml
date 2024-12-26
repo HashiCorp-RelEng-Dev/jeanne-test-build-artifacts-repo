@@ -1,0 +1,29 @@
+name: build
+
+on: push
+
+jobs:
+  generate-files:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ linux ]
+        arch: [ "arm", "arm64", "386", "amd64"
+    name: Generate files for ${{ matrix.os }} ${{ matrix.arch }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Generate files
+        run: |
+          go run main.go
+        env:
+            ARCH: ${{ matrix.arch }}
+            OS: ${{ matrix.os }}
+      - name: Upload files
+        uses: actions/upload-artifact@v4
+        with:
+          path: ${{ github.workspace }}/output
+      - name: Poll build artifacts
+        run: |
+          .github/scripts/get-artifacts.sh ${{ github.run_id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
