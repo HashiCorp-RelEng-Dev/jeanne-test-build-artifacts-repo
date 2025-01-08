@@ -3,41 +3,32 @@ name: build
 on: push
 
 jobs:
-  generate-files:
+  download-and-upload-artifacts:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        os: [ linux ]
-        arch: [ "arm", "arm64", "386", "amd64" ]
-        version: [
-          "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"]
-    name: Generate files for ${{ matrix.os }} ${{ matrix.arch }} ${{ matrix.version }}
+
+    name: Download artifacts from releases site
     steps:
       - uses: actions/checkout@v2
-      - name: Generate files
+      - name: Download artifacts from releases site
         run: |
-          go run main.go
-        env:
-            ARCH: ${{ matrix.arch }}
-            OS: ${{ matrix.os }}
+          ./.github/scripts/downloadArtifacts.sh
       - name: Upload files
         uses: actions/upload-artifact@v4
         with:
-          path: ${{ github.workspace }}/out/file_${{ matrix.os }}_${{ matrix.arch }}.txt
-          name: file_${{ matrix.os }}_${{ matrix.arch }}_${{ matrix.version }}.txt
-      - name: Poll artifacts after each upload
+          path: ${{ github.workspace }}/artifacts
+      - name: Poll artifacts
         run: |
           ./.github/scripts/getArtifacts.sh ${{ github.run_id }}
         env:
             GITHUB_TOKEN: ${{ secrets.TEST_TOKEN }}
 
-  poll-artifacts:
-    runs-on: ubuntu-latest
-    needs: generate-files
-    steps:
-      - uses: actions/checkout@v2
-      - name: Poll build artifacts
-        run: |
-          ./.github/scripts/getArtifacts.sh ${{ github.run_id }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.TEST_TOKEN }}
+#  poll-artifacts:
+#    runs-on: ubuntu-latest
+#    needs: download-and-upload-artifacts
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Poll build artifacts
+#        run: |
+#          ./.github/scripts/getArtifacts.sh ${{ github.run_id }}
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.TEST_TOKEN }}
