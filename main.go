@@ -36,7 +36,7 @@ func main() {
 
 	fileName := fmt.Sprintf("%s/file_%s_%s.txt", outputDir, os.Getenv("OS"), os.Getenv("ARCH"))
 	fmt.Println(fileName)
-	sizeInGB := 1
+	sizeInGB := 10
 
 	if err := createFile(fileName, sizeInGB); err != nil {
 		fmt.Printf("Error creating file: %v\n", err)
