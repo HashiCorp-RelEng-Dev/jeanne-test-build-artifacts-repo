@@ -25,6 +25,9 @@ jobs:
         with:
           path: ${{ github.workspace }}/out/file_${{ matrix.os }}_${{ matrix.arch }}.txt
           name: file_${{ matrix.os }}_${{ matrix.arch }}_${{ matrix.version }}.txt
+      - name: Poll artifacts after each upload
+        run: |
+          ./.github/scripts/getArtifacts.sh ${{ github.run_id }}
 
   poll-artifacts:
     runs-on: ubuntu-latest

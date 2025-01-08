@@ -17,7 +17,7 @@ func createFile(fileName string, sizeInGB int) error {
 		}
 	}(file)
 
-	fileSize := int64(sizeInGB) * 1024 * 1024 * 1024
+	fileSize := int64(sizeInGB) * 1024 * 1024
 
 	if err := file.Truncate(fileSize); err != nil {
 		return err
@@ -36,7 +36,7 @@ func main() {
 
 	fileName := fmt.Sprintf("%s/file_%s_%s.txt", outputDir, os.Getenv("OS"), os.Getenv("ARCH"))
 	fmt.Println(fileName)
-	sizeInGB := 100
+	sizeInGB := 500
 
 	if err := createFile(fileName, sizeInGB); err != nil {
 		fmt.Printf("Error creating file: %v\n", err)
