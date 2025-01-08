@@ -5,6 +5,27 @@ import (
 	"os"
 )
 
+func createFile(fileName string, sizeInMB int) error {
+	file, err := os.Create(fileName)
+	if err != nil {
+		return err
+	}
+	defer func(file *os.File) {
+		err := file.Close()
+		if err != nil {
+			fmt.Printf("Error closing file: %v\n", err)
+		}
+	}(file)
+
+	fileSize := int64(sizeInMB) * 1024 * 1024
+
+	if err := file.Truncate(fileSize); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func main() {
 	outputDir := "./out"
 	err := os.MkdirAll(outputDir, os.ModePerm)
@@ -13,24 +34,14 @@ func main() {
 		return
 	}
 
-	for i := 1; i <= 100; i++ {
-		fileName := fmt.Sprintf("%s/file_%s_%s_%d.txt", outputDir, os.Getenv("OS"), os.Getenv("ARCH"), i)
-		fmt.Println(fileName)
+	fileName := fmt.Sprintf("%s/file_%s_%s.txt", outputDir, os.Getenv("OS"), os.Getenv("ARCH"))
+	fmt.Println(fileName)
+	sizeInMB := 100
 
-		file, err := os.Create(fileName)
-		if err != nil {
-			fmt.Printf("Failed to create file %s: %v\n", fileName, err)
-			continue
-		}
-
-		content := fmt.Sprintf("This is the content of file %d\n", i)
-		_, err = file.WriteString(content)
-		if err != nil {
-			fmt.Printf("Failed to write to file %s: %v\n", fileName, err)
-		}
-
-		file.Close()
+	if err := createFile(fileName, sizeInMB); err != nil {
+		fmt.Printf("Error creating file: %v\n", err)
 	}
 
-	fmt.Println("100 text files generated")
+	fmt.Printf("File '%s' of size %dMB created successfully!\n", fileName, sizeInMB)
+
 }

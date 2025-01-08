@@ -23,7 +23,7 @@ jobs:
       - name: Upload files
         uses: actions/upload-artifact@v4
         with:
-          path: ${{ github.workspace }}/out/file_${{ matrix.os }}_${{ matrix.arch }}_?.txt
+          path: ${{ github.workspace }}/out/file_${{ matrix.os }}_${{ matrix.arch }}.txt
           name: file_${{ matrix.os }}_${{ matrix.arch }}_${{ matrix.version }}.txt
 
   poll-artifacts:
