@@ -14,7 +14,7 @@ jobs:
           ./.github/scripts/downloadArtifacts.sh
       - name: Set filenames
         run: |
-          ./.github/scripts/matrix.sh
+          ./.github/scripts/matrix.sh "artifacts"
 #      - name: Set filenames
 #        run: |
 #          cd artifacts
