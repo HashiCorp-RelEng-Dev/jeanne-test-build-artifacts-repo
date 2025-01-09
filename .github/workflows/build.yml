@@ -12,10 +12,15 @@ jobs:
       - name: Download artifacts from releases site
         run: |
           ./.github/scripts/downloadArtifacts.sh
+      - name: Set filenames
+        run: |
+          echo "FILENAME=$(basename artifacts/*.zip" >> $GITHUB_ENV
       - name: Upload files
         uses: actions/upload-artifact@v4
         with:
-          path: ${{ github.workspace }}/artifacts
+          name: ${{ env.FILENAME }}
+          path: ${{ github.workspace }}/artifacts/${{ env.FILENAME }}
+
       - name: Poll artifacts
         run: |
           ./.github/scripts/getArtifacts.sh ${{ github.run_id }}
