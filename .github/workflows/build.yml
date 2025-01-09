@@ -14,9 +14,8 @@ jobs:
           ./.github/scripts/downloadArtifacts.sh
       - name: Set filenames
         run: |
-          pwd
-          ls
-          echo "FILENAME=$(basename artifacts/*.zip)" >> $GITHUB_ENV
+          cd artifacts
+          echo "FILENAME=$(basename *.zip)" >> $GITHUB_ENV
           echo $FILENAME
       - name: Upload files
         uses: actions/upload-artifact@v4
