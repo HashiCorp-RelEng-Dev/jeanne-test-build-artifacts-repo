@@ -7,9 +7,10 @@ OUTPUT_DIR="artifacts"
 mkdir -p "$OUTPUT_DIR"
 
 curl -L https://api.releases.hashicorp.com/v1/releases/vault/latest | jq --arg product "$PRODUCT" --arg version "$VERSION" -r '.builds[] | "\(.url) \($product)_\($version)_\(.os)_\(.arch).zip"' | while read -r url filename; do
+    trimmed="${filename// /}"
     echo "Downloading $url..."
-    curl -o "$OUTPUT_DIR/$filename" "$url"
-    echo "Saved as $filename"
+    curl -o "$OUTPUT_DIR/${trimmed}" "$url"
+    echo "Saved as $trimmed"
 done
 
 echo "Download complete!"
