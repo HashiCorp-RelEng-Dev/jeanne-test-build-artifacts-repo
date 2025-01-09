@@ -15,6 +15,7 @@ jobs:
       - name: Set filenames
         run: |
           echo "FILENAME=$(basename artifacts/*.zip)" >> $GITHUB_ENV
+          echo $FILENAME
       - name: Upload files
         uses: actions/upload-artifact@v4
         with:
