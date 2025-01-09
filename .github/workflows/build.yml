@@ -14,20 +14,23 @@ jobs:
           ./.github/scripts/downloadArtifacts.sh
       - name: Set filenames
         run: |
-          cd artifacts
-          echo "FILENAME=$(basename *.zip)" >> $GITHUB_ENV
-          echo $FILENAME
-      - name: Upload files
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ env.FILENAME }}
-          path: ${{ github.workspace }}/artifacts/${{ env.FILENAME }}
-
-      - name: Poll artifacts
-        run: |
-          ./.github/scripts/getArtifacts.sh ${{ github.run_id }}
-        env:
-            GITHUB_TOKEN: ${{ secrets.TEST_TOKEN }}
+          ./.github/scripts/matrix.sh
+#      - name: Set filenames
+#        run: |
+#          cd artifacts
+#          echo "FILENAME=$(basename *.zip)" >> $GITHUB_ENV
+#          echo $FILENAME
+#      - name: Upload files
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: ${{ env.FILENAME }}
+#          path: ${{ github.workspace }}/artifacts/${{ env.FILENAME }}
+#
+#      - name: Poll artifacts
+#        run: |
+#          ./.github/scripts/getArtifacts.sh ${{ github.run_id }}
+#        env:
+#            GITHUB_TOKEN: ${{ secrets.TEST_TOKEN }}
 
 #  poll-artifacts:
 #    runs-on: ubuntu-latest
